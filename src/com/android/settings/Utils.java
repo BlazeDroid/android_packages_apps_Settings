@@ -106,6 +106,13 @@ import com.android.settings.development.featureflags.FeatureFlagPersistent;
 import com.android.settings.password.ChooseLockSettingsHelper;
 import com.android.settingslib.widget.ActionBarShadowController;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Iterator;
 import java.util.List;
@@ -1071,5 +1078,50 @@ public final class Utils extends com.android.settingslib.Utils {
             return input.toLowerCase();
         }
         return input;
+    }
+
+        public static boolean fileExists(String filename) { 
+        return new File(filename).exists(); 
+    } 
+ 
+    public static String fileReadOneLine(String fname) { 
+        BufferedReader br; 
+        String line = null; 
+ 
+        try { 
+            br = new BufferedReader(new FileReader(fname), 512); 
+            try { 
+                line = br.readLine(); 
+            } finally { 
+                br.close(); 
+            } 
+        } catch (Exception e) { 
+            Log.e(TAG, "IO Exception when reading /sys/ file", e); 
+        } 
+        return line; 
+    } 
+ 
+    public static boolean fileWriteOneLine(String fname, String value) { 
+        try { 
+            FileWriter fw = new FileWriter(fname); 
+            try { 
+                fw.write(value); 
+            } finally { 
+                fw.close(); 
+            } 
+        } catch (IOException e) { 
+            String Error = "Error writing to " + fname + ". Exception: "; 
+            Log.e(TAG, Error, e); 
+            return false; 
+        } 
+        return true; 
+    } 
+
+    public static boolean fileIsReadable(String fname) {
+        return new File(fname).canRead();
+    }
+
+    public static boolean fileIsWritable(String fname) {
+        return new File(fname).canWrite();
     }
 }

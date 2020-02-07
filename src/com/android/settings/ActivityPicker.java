@@ -57,7 +57,6 @@ import java.util.List;
  */
 public class ActivityPicker extends AlertActivity implements
         DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
-    
     /**
      * Adapter of items that are displayed in this dialog.
      */
